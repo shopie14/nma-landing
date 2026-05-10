@@ -3,14 +3,7 @@
 import { useState } from "react"
 import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react"
 
-/*
-  ─────────────────────────────────────────────
-  CARA MENGGANTI FOTO:
-  Ganti nilai `src` di array `photos` di bawah
-  dengan path lokal (e.g. "/images/foto-1.jpg")
-  atau URL foto Anda sendiri.
-  ─────────────────────────────────────────────
-*/
+
 const photos = [
   {
     id: 1,
@@ -29,16 +22,16 @@ const photos = [
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=900&q=80",
-    thumb: "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=500&q=75",
+    src: "/images/dokumentasi-1.jpeg",
+    thumb: "/images/dokumentasi-1.jpeg",
     caption: "Survei Lokasi Proyek",
     tag: "Survei",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80",
-    thumb: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&q=75",
-    caption: "Desain Interior Perkantoran",
+    src: "/images/dokumentasi-2.jpeg",
+    thumb: "/images/dokumentasi-2.jpeg",
+    caption: "Desain Interior",
     tag: "Interior",
   },
   {
@@ -50,8 +43,8 @@ const photos = [
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=900&q=80",
-    thumb: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=500&q=75",
+    src: "/images/dokumentasi-3.jpeg",
+    thumb: "/images/dokumentasi-3.jpeg",
     caption: "Pengawasan Konstruksi",
     tag: "Konstruksi",
   },
