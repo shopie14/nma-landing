@@ -1,210 +1,69 @@
 "use client"
 
 import { COMPANY } from "@/constants/company"
-import {
-  FileText, Building2, Award, Wrench, Landmark,
-  Layers, Route, Briefcase
-} from "lucide-react"
+import { FileText, Building2, Award, Wrench, Landmark, Layers, Route, Briefcase } from "lucide-react"
 
-const iconMap: Record<string, React.ElementType> = {
-  FileText, Building2, Award, Wrench, Landmark, Layers, Route, Briefcase,
-}
+const iconMap: Record<string, React.ElementType> = { FileText, Building2, Award, Wrench, Landmark, Layers, Route, Briefcase }
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      style={{
-        background: "linear-gradient(180deg, #020b18 0%, #061325 100%)",
-        padding: "96px 0",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Background pattern */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "radial-gradient(circle at 20% 50%, rgba(26,77,153,0.12) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(230,184,0,0.05) 0%, transparent 40%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
-        {/* Section header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
-          <div
-            style={{
-              display: "inline-block",
-              fontSize: "11px",
-              letterSpacing: "3px",
-              color: "#e6b800",
-              textTransform: "uppercase",
-              marginBottom: "12px",
-            }}
-          >
-            Apa yang Kami Tawarkan
+    <section id="services" className="section" style={{ background: "var(--surface)" }}>
+      <div className="container">
+        {/* Header */}
+        <div style={{
+          display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+          flexWrap: "wrap", gap: "clamp(16px,3vw,20px)", marginBottom: "clamp(36px,6vw,56px)",
+        }}>
+          <div>
+            <p className="eyebrow" style={{ marginBottom: 10 }}>Layanan Kami</p>
+            <h2 className="h-section" style={{ color: "var(--ink)" }}>
+              Solusi Profesional<br className="hide-mobile" /> yang Kami Sediakan
+            </h2>
           </div>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 700,
-              color: "#ffffff",
-              marginBottom: "16px",
-            }}
-          >
-            Layanan Unggulan
-          </h2>
-          <div
-            style={{
-              width: "60px",
-              height: "3px",
-              background: "linear-gradient(90deg, #e6b800, #f9dc7a)",
-              borderRadius: "2px",
-              margin: "0 auto 20px",
-            }}
-          />
-          <p
-            style={{
-              color: "rgba(255,255,255,0.5)",
-              fontSize: "15px",
-              maxWidth: "480px",
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Kami menyediakan layanan konsultan dan perizinan terlengkap untuk mendukung kesuksesan proyek Anda.
+          <p className="body-sm" style={{ color: "var(--ink-muted)", maxWidth: 300, lineHeight: 1.75 }}>
+            Delapan layanan terintegrasi untuk mendukung proyek Anda dari perizinan hingga penyelesaian.
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-            gap: "20px",
-          }}
-        >
+        <div style={{ height: 1, background: "linear-gradient(90deg,var(--gold-pale),transparent)", marginBottom: "clamp(36px,6vw,56px)" }} />
+
+        {/* Grid */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 240px), 1fr))",
+          gap: 1,
+          background: "var(--surface-3)",
+          border: "1px solid var(--surface-3)",
+          borderRadius: 12, overflow: "hidden",
+        }}>
           {COMPANY.services.map((service, i) => {
             const Icon = iconMap[service.icon] || FileText
             return (
-              <ServiceCard key={service.title} service={service} Icon={Icon} index={i} />
+              <div key={service.title}
+                style={{ background: "var(--surface)", padding: "clamp(20px,3.5vw,32px) clamp(18px,3vw,28px)", cursor: "default", transition: "background .3s ease", position: "relative" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "var(--gold-faint)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "var(--surface)")}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "clamp(14px,2.5vw,20px)" }}>
+                  <div style={{
+                    width: 42, height: 42, borderRadius: 9,
+                    background: "var(--navy-pale)", border: "1px solid rgba(74,111,165,.15)",
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  }}>
+                    <Icon size={19} color="var(--navy-soft)" />
+                  </div>
+                  <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(22px,3.5vw,28px)", fontWeight: 600, color: "var(--surface-4)", lineHeight: 1 }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="h-card" style={{ color: "var(--ink)", marginBottom: 3 }}>{service.title}</div>
+                <div style={{ fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase", color: "var(--gold)", marginBottom: 10, fontWeight: 500 }}>{service.fullTitle}</div>
+                <p className="body-sm" style={{ color: "var(--ink-muted)" }}>{service.desc}</p>
+              </div>
             )
           })}
         </div>
       </div>
     </section>
-  )
-}
-
-function ServiceCard({
-  service,
-  Icon,
-  index,
-}: {
-  service: (typeof COMPANY.services)[0]
-  Icon: React.ElementType
-  index: number
-}) {
-  return (
-    <div
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderRadius: "12px",
-        padding: "28px",
-        cursor: "default",
-        transition: "all 0.3s ease",
-        position: "relative",
-        overflow: "hidden",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.background = "rgba(230,184,0,0.06)"
-        el.style.border = "1px solid rgba(230,184,0,0.25)"
-        el.style.transform = "translateY(-4px)"
-        el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.3)"
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.background = "rgba(255,255,255,0.03)"
-        el.style.border = "1px solid rgba(255,255,255,0.07)"
-        el.style.transform = "translateY(0)"
-        el.style.boxShadow = "none"
-      }}
-    >
-      {/* Icon */}
-      <div
-        style={{
-          width: "48px",
-          height: "48px",
-          borderRadius: "10px",
-          background: "linear-gradient(135deg, rgba(230,184,0,0.15), rgba(245,200,66,0.08))",
-          border: "1px solid rgba(230,184,0,0.2)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <Icon size={22} color="#e6b800" />
-      </div>
-
-      {/* Title */}
-      <div
-        style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: "18px",
-          fontWeight: 600,
-          color: "#ffffff",
-          marginBottom: "4px",
-        }}
-      >
-        {service.title}
-      </div>
-      <div
-        style={{
-          fontSize: "11px",
-          letterSpacing: "1px",
-          color: "#e6b800",
-          marginBottom: "12px",
-          textTransform: "uppercase",
-        }}
-      >
-        {service.fullTitle}
-      </div>
-
-      {/* Description */}
-      <p
-        style={{
-          color: "rgba(255,255,255,0.45)",
-          fontSize: "13px",
-          lineHeight: 1.7,
-        }}
-      >
-        {service.desc}
-      </p>
-
-      {/* Number watermark */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-10px",
-          right: "16px",
-          fontFamily: "'Playfair Display', serif",
-          fontSize: "80px",
-          fontWeight: 900,
-          color: "rgba(230,184,0,0.04)",
-          lineHeight: 1,
-          pointerEvents: "none",
-          userSelect: "none",
-        }}
-      >
-        {String(index + 1).padStart(2, "0")}
-      </div>
-    </div>
   )
 }

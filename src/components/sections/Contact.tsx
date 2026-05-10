@@ -6,355 +6,176 @@ import { Phone, Mail, MapPin, MessageCircle, Send, Clock } from "lucide-react"
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", phone: "", service: "", message: "" })
+  const [focused, setFocused] = useState<string | null>(null)
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
 
-  const handleWhatsApp = () => {
-    const text = `Halo NMA, saya *${form.name}*.\n\nSaya ingin berkonsultasi mengenai *${form.service || "layanan Anda"}*.\n\n${form.message}\n\nNo. HP: ${form.phone}`
+  const handleSend = () => {
+    const text = `Halo NMA, saya *${form.name || "calon klien"}*.\n\nLayanan: *${form.service || "—"}*\n\n${form.message || ""}\n\nKontak: ${form.phone || "—"}`
     window.open(`https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(text)}`, "_blank")
   }
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px 16px",
-    background: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: "8px",
-    color: "#fff",
-    fontSize: "14px",
-    outline: "none",
-    fontFamily: "'DM Sans', sans-serif",
-    transition: "border 0.2s",
-    boxSizing: "border-box",
-  }
+  const fieldStyle = (name: string): React.CSSProperties => ({
+    width: "100%", padding: "11px 14px",
+    background: "var(--surface)",
+    border: `1px solid ${focused === name ? "var(--gold-pale)" : "var(--surface-4)"}`,
+    borderRadius: 7, color: "var(--ink)", fontSize: 13,
+    outline: "none", fontFamily: "'Plus Jakarta Sans', sans-serif",
+    transition: "border-color 0.25s ease",
+    boxSizing: "border-box" as const,
+  })
+
+  const contactItems = [
+    { icon: <Phone size={15} color="var(--gold)" />, label: "Telepon", value: COMPANY.phone, href: `tel:${COMPANY.phone}` },
+    { icon: <MessageCircle size={15} color="var(--gold)" />, label: "WhatsApp", value: COMPANY.whatsappDisplay, href: `https://wa.me/${COMPANY.whatsapp}` },
+    { icon: <Mail size={15} color="var(--gold)" />, label: "Email", value: COMPANY.email, href: `mailto:${COMPANY.email}` },
+    { icon: <MapPin size={15} color="var(--gold)" />, label: "Alamat", value: COMPANY.address, href: `https://maps.google.com/?q=${encodeURIComponent(COMPANY.address)}` },
+  ]
 
   return (
-    <section
-      id="contact"
-      style={{
-        background: "linear-gradient(180deg, #020b18 0%, #000d1a 100%)",
-        padding: "96px 0",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Glow */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "600px",
-          height: "300px",
-          background: "radial-gradient(ellipse, rgba(230,184,0,0.05) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
+    <section id="contact" style={{ background: "var(--surface-2)", padding: "100px 0" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 28px" }}>
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
-          <div
-            style={{
-              fontSize: "11px",
-              letterSpacing: "3px",
-              color: "#e6b800",
-              textTransform: "uppercase",
-              marginBottom: "12px",
-            }}
-          >
+        <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "var(--gold)", marginBottom: 10, fontWeight: 500 }}>
             Ayo Berkolaborasi
           </div>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 700,
-              color: "#ffffff",
-              marginBottom: "16px",
-            }}
-          >
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(30px, 4.5vw, 52px)", fontWeight: 600, color: "var(--ink)", lineHeight: 1.1, marginBottom: 14 }}>
             Hubungi Kami
           </h2>
-          <div
-            style={{
-              width: "60px",
-              height: "3px",
-              background: "linear-gradient(90deg, #e6b800, #f9dc7a)",
-              borderRadius: "2px",
-              margin: "0 auto 20px",
-            }}
-          />
-          <p
-            style={{
-              color: "rgba(255,255,255,0.45)",
-              fontSize: "15px",
-              maxWidth: "440px",
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Siap mendampingi proyek Anda. Konsultasi awal gratis — hubungi kami sekarang.
+          <div style={{ width: 36, height: 2, background: "var(--gold)", borderRadius: 1, margin: "0 auto 20px" }} />
+          <p style={{ fontSize: 14, color: "var(--ink-muted)", maxWidth: 380, margin: "0 auto", lineHeight: 1.7 }}>
+            Konsultasi awal gratis. Kami siap membantu proyek Anda segera.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "40px",
-          }}
-        >
-          {/* Left: Info */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40 }}>
+          {/* Left: contact info */}
           <div>
-            <div
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "22px",
-                fontWeight: 600,
-                color: "#fff",
-                marginBottom: "24px",
-              }}
-            >
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: "var(--ink)", marginBottom: 24 }}>
               Informasi Kontak
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "32px" }}>
-              {[
-                {
-                  icon: <Phone size={18} color="#e6b800" />,
-                  label: "Telepon",
-                  value: COMPANY.phone,
-                  href: `tel:${COMPANY.phone}`,
-                },
-                {
-                  icon: <MessageCircle size={18} color="#e6b800" />,
-                  label: "WhatsApp",
-                  value: COMPANY.whatsappDisplay,
-                  href: `https://wa.me/${COMPANY.whatsapp}`,
-                },
-                {
-                  icon: <Mail size={18} color="#e6b800" />,
-                  label: "Email",
-                  value: COMPANY.email,
-                  href: `mailto:${COMPANY.email}`,
-                },
-                {
-                  icon: <MapPin size={18} color="#e6b800" />,
-                  label: "Alamat",
-                  value: COMPANY.address,
-                  href: `https://maps.google.com/?q=${encodeURIComponent(COMPANY.address)}`,
-                },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+              {contactItems.map(item => (
+                <a key={item.label} href={item.href} target="_blank" rel="noreferrer"
                   style={{
-                    display: "flex",
-                    gap: "14px",
-                    alignItems: "flex-start",
-                    textDecoration: "none",
-                    padding: "16px",
-                    borderRadius: "10px",
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    transition: "all 0.2s",
+                    display: "flex", gap: 14, alignItems: "flex-start",
+                    textDecoration: "none", padding: "14px 16px", borderRadius: 9,
+                    background: "var(--surface)", border: "1px solid var(--surface-4)",
+                    transition: "border-color 0.3s ease, background 0.3s ease",
                   }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = "rgba(230,184,0,0.06)"
-                    el.style.border = "1px solid rgba(230,184,0,0.2)"
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = "rgba(255,255,255,0.03)"
-                    el.style.border = "1px solid rgba(255,255,255,0.06)"
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold-pale)"; e.currentTarget.style.background = "var(--gold-faint)" }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--surface-4)"; e.currentTarget.style.background = "var(--surface)" }}
                 >
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "8px",
-                      background: "rgba(230,184,0,0.08)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
+                  <div style={{ width: 32, height: 32, borderRadius: 7, background: "var(--gold-faint)", border: "1px solid var(--gold-pale)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     {item.icon}
                   </div>
                   <div>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginBottom: "3px", letterSpacing: "0.5px" }}>
-                      {item.label}
-                    </div>
-                    <div style={{ color: "#fff", fontSize: "13px", lineHeight: 1.5 }}>{item.value}</div>
+                    <div style={{ fontSize: 10, letterSpacing: "1px", color: "var(--ink-faint)", textTransform: "uppercase", marginBottom: 2 }}>{item.label}</div>
+                    <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.5 }}>{item.value}</div>
                   </div>
                 </a>
               ))}
             </div>
 
             {/* Hours */}
-            <div
-              style={{
-                background: "rgba(230,184,0,0.05)",
-                border: "1px solid rgba(230,184,0,0.15)",
-                borderRadius: "10px",
-                padding: "16px",
-                display: "flex",
-                gap: "12px",
-                alignItems: "flex-start",
-              }}
-            >
-              <Clock size={16} color="#e6b800" style={{ marginTop: "2px" }} />
+            <div style={{
+              background: "var(--surface)", border: "1px solid var(--surface-4)",
+              borderRadius: 9, padding: "16px", display: "flex", gap: 12, alignItems: "flex-start",
+            }}>
+              <div style={{ width: 32, height: 32, borderRadius: 7, background: "var(--navy-pale)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Clock size={15} color="var(--navy-soft)" />
+              </div>
               <div>
-                <div style={{ fontSize: "12px", color: "#e6b800", marginBottom: "4px", fontWeight: 500 }}>
-                  Jam Operasional
-                </div>
-                <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "13px" }}>
-                  Senin – Jumat: 08.00 – 17.00 WIB
-                </div>
-                <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-soft)", marginBottom: 6 }}>Jam Operasional</div>
+                <div style={{ fontSize: 12, color: "var(--ink-muted)", lineHeight: 1.7 }}>
+                  Senin – Jumat: 08.00 – 17.00 WIB<br />
                   Sabtu: 08.00 – 13.00 WIB
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right: Form */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: "16px",
-              padding: "32px",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "20px",
-                fontWeight: 600,
-                color: "#fff",
-                marginBottom: "24px",
-              }}
-            >
+          {/* Right: form */}
+          <div style={{ background: "var(--surface)", border: "1px solid var(--surface-4)", borderRadius: 12, padding: "32px" }}>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: "var(--ink)", marginBottom: 24 }}>
               Kirim Pesan via WhatsApp
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {/* Name */}
               <div>
-                <label style={{ display: "block", fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "6px", letterSpacing: "0.5px" }}>
-                  NAMA LENGKAP
-                </label>
-                <input
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama Anda"
-                  style={inputStyle}
-                  onFocus={(e) => ((e.target as HTMLInputElement).style.border = "1px solid rgba(230,184,0,0.4)")}
-                  onBlur={(e) => ((e.target as HTMLInputElement).style.border = "1px solid rgba(255,255,255,0.1)")}
+                <label style={{ display: "block", fontSize: 11, color: "var(--ink-faint)", marginBottom: 5, letterSpacing: "0.5px", textTransform: "uppercase" }}>Nama Lengkap</label>
+                <input name="name" value={form.name} onChange={handleChange}
+                  placeholder="Nama Anda"
+                  style={fieldStyle("name")}
+                  onFocus={() => setFocused("name")}
+                  onBlur={() => setFocused(null)}
                 />
               </div>
 
+              {/* Phone */}
               <div>
-                <label style={{ display: "block", fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "6px", letterSpacing: "0.5px" }}>
-                  NOMOR HP / WA
-                </label>
-                <input
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="Contoh: 0812-xxxx-xxxx"
-                  style={inputStyle}
-                  onFocus={(e) => ((e.target as HTMLInputElement).style.border = "1px solid rgba(230,184,0,0.4)")}
-                  onBlur={(e) => ((e.target as HTMLInputElement).style.border = "1px solid rgba(255,255,255,0.1)")}
+                <label style={{ display: "block", fontSize: 11, color: "var(--ink-faint)", marginBottom: 5, letterSpacing: "0.5px", textTransform: "uppercase" }}>Nomor HP / WhatsApp</label>
+                <input name="phone" value={form.phone} onChange={handleChange}
+                  placeholder="0812-xxxx-xxxx"
+                  style={fieldStyle("phone")}
+                  onFocus={() => setFocused("phone")}
+                  onBlur={() => setFocused(null)}
                 />
               </div>
 
+              {/* Service */}
               <div>
-                <label style={{ display: "block", fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "6px", letterSpacing: "0.5px" }}>
-                  LAYANAN YANG DIBUTUHKAN
-                </label>
-                <select
-                  name="service"
-                  value={form.service}
-                  onChange={handleChange}
-                  style={{ ...inputStyle, cursor: "pointer" }}
-                  onFocus={(e) => ((e.target as HTMLSelectElement).style.border = "1px solid rgba(230,184,0,0.4)")}
-                  onBlur={(e) => ((e.target as HTMLSelectElement).style.border = "1px solid rgba(255,255,255,0.1)")}
+                <label style={{ display: "block", fontSize: 11, color: "var(--ink-faint)", marginBottom: 5, letterSpacing: "0.5px", textTransform: "uppercase" }}>Layanan yang Dibutuhkan</label>
+                <select name="service" value={form.service} onChange={handleChange}
+                  style={{ ...fieldStyle("service"), cursor: "pointer" }}
+                  onFocus={() => setFocused("service")}
+                  onBlur={() => setFocused(null)}
                 >
-                  <option value="" style={{ background: "#061325" }}>Pilih layanan...</option>
-                  {COMPANY.services.map((s) => (
-                    <option key={s.title} value={`${s.title} - ${s.fullTitle}`} style={{ background: "#061325" }}>
+                  <option value="">Pilih layanan...</option>
+                  {COMPANY.services.map(s => (
+                    <option key={s.title} value={`${s.title} — ${s.fullTitle}`}>
                       {s.title} — {s.fullTitle}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Message */}
               <div>
-                <label style={{ display: "block", fontSize: "12px", color: "rgba(255,255,255,0.4)", marginBottom: "6px", letterSpacing: "0.5px" }}>
-                  PESAN / KETERANGAN
-                </label>
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
+                <label style={{ display: "block", fontSize: 11, color: "var(--ink-faint)", marginBottom: 5, letterSpacing: "0.5px", textTransform: "uppercase" }}>Keterangan</label>
+                <textarea name="message" value={form.message} onChange={handleChange}
                   placeholder="Ceritakan kebutuhan proyek Anda..."
                   rows={4}
-                  style={{ ...inputStyle, resize: "vertical" }}
-                  onFocus={(e) => ((e.target as HTMLTextAreaElement).style.border = "1px solid rgba(230,184,0,0.4)")}
-                  onBlur={(e) => ((e.target as HTMLTextAreaElement).style.border = "1px solid rgba(255,255,255,0.1)")}
+                  style={{ ...fieldStyle("message"), resize: "vertical" }}
+                  onFocus={() => setFocused("message")}
+                  onBlur={() => setFocused(null)}
                 />
               </div>
 
-              <button
-                onClick={handleWhatsApp}
+              {/* Submit */}
+              <button onClick={handleSend}
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  background: "linear-gradient(135deg, #e6b800, #f5c842)",
-                  color: "#020b18",
-                  padding: "14px",
-                  borderRadius: "8px",
-                  border: "none",
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  letterSpacing: "0.3px",
-                  fontFamily: "'DM Sans', sans-serif",
-                  transition: "opacity 0.2s, transform 0.2s",
-                  boxShadow: "0 8px 24px rgba(230,184,0,0.25)",
-                  marginTop: "8px",
+                  width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 9,
+                  background: "var(--navy)", color: "var(--gold-light)",
+                  padding: "13px", borderRadius: 7, border: "none",
+                  fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: "0.3px",
+                  transition: "all 0.25s ease",
+                  boxShadow: "0 4px 16px rgba(30,45,69,0.14)",
+                  marginTop: 4,
                 }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.opacity = "0.9"
-                  el.style.transform = "translateY(-1px)"
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.opacity = "1"
-                  el.style.transform = "translateY(0)"
-                }}
+                onMouseEnter={e => { e.currentTarget.style.background = "var(--navy-mid)"; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(30,45,69,0.2)" }}
+                onMouseLeave={e => { e.currentTarget.style.background = "var(--navy)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(30,45,69,0.14)" }}
               >
-                <Send size={17} />
-                Kirim via WhatsApp
+                <Send size={15} /> Kirim via WhatsApp
               </button>
 
-              <p style={{ textAlign: "center", color: "rgba(255,255,255,0.25)", fontSize: "11px" }}>
-                Konsultasi pertama gratis • Respon cepat dalam jam kerja
+              <p style={{ textAlign: "center", fontSize: 11, color: "var(--ink-faint)" }}>
+                Konsultasi pertama gratis · Respons cepat dalam jam kerja
               </p>
             </div>
           </div>

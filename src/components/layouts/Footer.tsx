@@ -2,188 +2,102 @@
 
 import Link from "next/link"
 import { COMPANY } from "@/constants/company"
-import { Phone, Mail, MapPin, MessageCircle } from "lucide-react"
+import { Mail, MapPin, Phone } from "lucide-react"
+
+const navLinks = [
+  { label: "Beranda",    href: "#hero" },
+  { label: "Layanan",   href: "#services" },
+  { label: "Tentang",   href: "#about" },
+  { label: "Legalitas", href: "#legalitas" },
+  { label: "Tim",       href: "#team" },
+  { label: "Kontak",    href: "#contact" },
+]
 
 export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer
-      style={{
-        background: "linear-gradient(180deg, #020b18 0%, #000d1a 100%)",
-        borderTop: "1px solid rgba(230,184,0,0.15)",
-        paddingTop: "64px",
-        paddingBottom: "32px",
-      }}
-    >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "48px",
-            marginBottom: "48px",
-          }}
-        >
+    <footer style={{ background: "var(--ink)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 64, paddingBottom: 32 }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 48, marginBottom: 48 }}>
+
           {/* Brand */}
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  background: "linear-gradient(135deg, #e6b800, #f9dc7a)",
-                  borderRadius: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "'Playfair Display', serif",
-                  fontWeight: 900,
-                  fontSize: "15px",
-                  color: "#020b18",
-                }}
-              >
-                NMA
+          <div style={{ gridColumn: "span 1" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 6, background: "var(--navy-mid)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: 12, color: "var(--gold-light)" }}>NMA</span>
               </div>
               <div>
-                <div
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 700,
-                    fontSize: "14px",
-                    color: "#fff",
-                  }}
-                >
-                  CV Nugraha Mutiara Abadi
-                </div>
-                <div style={{ fontSize: "10px", color: "#e6b800", letterSpacing: "2px" }}>
-                  KONSULTAN & PERIZINAN
-                </div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: 14, color: "rgba(255,255,255,0.9)" }}>CV Nugraha Mutiara Abadi</div>
+                <div style={{ fontSize: 9, color: "var(--gold)", letterSpacing: "2px", textTransform: "uppercase" }}>Konsultan & Perizinan</div>
               </div>
             </div>
-            <p
-              style={{
-                color: "rgba(255,255,255,0.5)",
-                fontSize: "13px",
-                lineHeight: 1.7,
-                maxWidth: "260px",
-              }}
-            >
-              {COMPANY.description}
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", lineHeight: 1.75, maxWidth: 240 }}>
+              Solusi tepat untuk setiap proyek. Profesional, legal, dan terpercaya.
             </p>
           </div>
 
-          {/* Layanan */}
+          {/* Navigation */}
           <div>
-            <h4
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                color: "#e6b800",
-                fontSize: "16px",
-                marginBottom: "16px",
-              }}
-            >
-              Layanan Kami
-            </h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
-              {COMPANY.services.slice(0, 5).map((s) => (
-                <li key={s.title}>
-                  <Link
-                    href="#services"
-                    style={{
-                      color: "rgba(255,255,255,0.5)",
-                      textDecoration: "none",
-                      fontSize: "13px",
-                      transition: "color 0.2s",
-                    }}
-                    onMouseEnter={(e) =>
-                      ((e.target as HTMLElement).style.color = "#f5c842")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.5)")
-                    }
-                  >
-                    {s.title} — {s.fullTitle}
-                  </Link>
+            <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16, fontWeight: 500 }}>Navigasi</div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
+              {navLinks.map(l => (
+                <li key={l.href}>
+                  <Link href={l.href}
+                    style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none", fontSize: 13, transition: "color 0.2s ease" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.8)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.38)")}
+                  >{l.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Kontak */}
+          {/* Layanan */}
           <div>
-            <h4
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                color: "#e6b800",
-                fontSize: "16px",
-                marginBottom: "16px",
-              }}
-            >
-              Kontak
-            </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <a
-                href={`tel:${COMPANY.phone}`}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                  color: "rgba(255,255,255,0.5)",
-                  textDecoration: "none",
-                  fontSize: "13px",
-                }}
-              >
-                <Phone size={14} style={{ marginTop: "2px", color: "#e6b800", flexShrink: 0 }} />
-                {COMPANY.phone}
-              </a>
-              <a
-                href={`mailto:${COMPANY.email}`}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                  color: "rgba(255,255,255,0.5)",
-                  textDecoration: "none",
-                  fontSize: "13px",
-                }}
-              >
-                <Mail size={14} style={{ marginTop: "2px", color: "#e6b800", flexShrink: 0 }} />
-                {COMPANY.email}
-              </a>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                  color: "rgba(255,255,255,0.5)",
-                  fontSize: "13px",
-                }}
-              >
-                <MapPin size={14} style={{ marginTop: "2px", color: "#e6b800", flexShrink: 0 }} />
-                {COMPANY.address}
-              </div>
+            <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16, fontWeight: 500 }}>Layanan</div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
+              {COMPANY.services.slice(0, 5).map(s => (
+                <li key={s.title}>
+                  <Link href="#services"
+                    style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none", fontSize: 13, transition: "color 0.2s ease" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.8)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.38)")}
+                  >{s.title} — {s.fullTitle}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Kontak singkat */}
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16, fontWeight: 500 }}>Kontak</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {[
+                { icon: <Phone size={12} />, val: COMPANY.phone, href: `tel:${COMPANY.phone}` },
+                { icon: <Mail size={12} />, val: COMPANY.email, href: `mailto:${COMPANY.email}` },
+                { icon: <MapPin size={12} />, val: "Garut, Jawa Barat", href: `https://maps.google.com/?q=${encodeURIComponent(COMPANY.address)}` },
+              ].map((c, i) => (
+                <a key={i} href={c.href} target="_blank" rel="noreferrer"
+                  style={{ display: "flex", alignItems: "flex-start", gap: 8, color: "rgba(255,255,255,0.38)", textDecoration: "none", fontSize: 12, lineHeight: 1.5, transition: "color 0.2s ease" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.38)")}
+                >
+                  <span style={{ marginTop: 2, color: "var(--gold)", flexShrink: 0 }}>{c.icon}</span>
+                  {c.val}
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div
-          style={{
-            borderTop: "1px solid rgba(255,255,255,0.07)",
-            paddingTop: "24px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "12px",
-          }}
-        >
-          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12px" }}>
+        {/* Bottom */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.22)" }}>
             © {year} CV Nugraha Mutiara Abadi. Semua hak dilindungi.
           </p>
-          <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px" }}>
-            NIB: {COMPANY.nib}
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.15)" }}>
+            Garut, Jawa Barat — Indonesia
           </p>
         </div>
       </div>

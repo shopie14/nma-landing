@@ -1,254 +1,90 @@
 "use client"
 
 import { COMPANY } from "@/constants/company"
-import { Users,  Mail } from "lucide-react"
+import { Mail } from "lucide-react"
 
-const teamColors = ["#1a4d99", "#0e2d58", "#123a72"]
+const avatarColors = [
+  { bg: "var(--navy-pale)",  text: "var(--navy)" },
+  { bg: "var(--gold-faint)", text: "var(--gold)" },
+  { bg: "#eef2f7",           text: "var(--navy-soft)" },
+]
+const topBarColors = ["var(--navy)", "var(--gold)", "var(--navy-soft)"]
 
 export default function Team() {
   return (
-    <section
-      id="team"
-      style={{
-        background: "linear-gradient(180deg, #040f20 0%, #020b18 100%)",
-        padding: "96px 0",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Decorative lines */}
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-          top: "0",
-          width: "1px",
-          height: "100%",
-          background: "linear-gradient(180deg, transparent, rgba(230,184,0,0.15), transparent)",
-        }}
-      />
-
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
+    <section id="team" className="section" style={{ background: "var(--surface)" }}>
+      <div className="container">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
-          <div
-            style={{
-              fontSize: "11px",
-              letterSpacing: "3px",
-              color: "#e6b800",
-              textTransform: "uppercase",
-              marginBottom: "12px",
-            }}
-          >
-            Orang di Balik NMA
-          </div>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 700,
-              color: "#ffffff",
-              marginBottom: "16px",
-            }}
-          >
-            Tim Profesional Kami
-          </h2>
-          <div
-            style={{
-              width: "60px",
-              height: "3px",
-              background: "linear-gradient(90deg, #e6b800, #f9dc7a)",
-              borderRadius: "2px",
-              margin: "0 auto 20px",
-            }}
-          />
-          <p
-            style={{
-              color: "rgba(255,255,255,0.45)",
-              fontSize: "15px",
-              maxWidth: "440px",
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Diperkuat oleh tenaga ahli berpengalaman yang berdedikasi memberikan hasil terbaik untuk Anda.
+        <div style={{ textAlign: "center", marginBottom: "clamp(36px,6vw,60px)" }}>
+          <p className="eyebrow" style={{ marginBottom: 10 }}>Orang di Balik NMA</p>
+          <h2 className="h-section" style={{ color: "var(--ink)", marginBottom: 14 }}>Tim Profesional Kami</h2>
+          <div className="divider" style={{ margin: "0 auto 18px" }} />
+          <p className="body-sm" style={{ color: "var(--ink-muted)", maxWidth: 380, margin: "0 auto", lineHeight: 1.75 }}>
+            Diperkuat oleh tenaga ahli berdedikasi yang siap memberikan hasil terbaik untuk setiap proyek Anda.
           </p>
         </div>
 
-        {/* Team Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px",
-            marginBottom: "48px",
-          }}
-        >
-          {COMPANY.team.map((member, i) => (
-            <div
-              key={member.name}
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
-                borderRadius: "16px",
-                overflow: "hidden",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.border = "1px solid rgba(230,184,0,0.2)"
-                el.style.transform = "translateY(-4px)"
-                el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.3)"
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.border = "1px solid rgba(255,255,255,0.07)"
-                el.style.transform = "translateY(0)"
-                el.style.boxShadow = "none"
-              }}
-            >
-              {/* Avatar area */}
-              <div
-                style={{
-                  height: "140px",
-                  background: `linear-gradient(135deg, ${teamColors[i % teamColors.length]}, rgba(2,11,24,0.5))`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {/* Decorative circles */}
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "200px",
-                    height: "200px",
-                    borderRadius: "50%",
-                    border: "1px solid rgba(230,184,0,0.1)",
-                    top: "-50px",
-                    right: "-50px",
-                  }}
-                />
-                {/* Initials */}
-                <div
-                  style={{
-                    width: "72px",
-                    height: "72px",
-                    borderRadius: "50%",
-                    background: "rgba(230,184,0,0.12)",
-                    border: "2px solid rgba(230,184,0,0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "24px",
-                    fontWeight: 700,
-                    color: "#f5c842",
-                    position: "relative",
-                  }}
-                >
-                  {i + 1 === 1 ? "DU" : i + 1 === 2 ? "MT" : "KS"}
+        {/* Cards */}
+        <div className="grid-3" style={{ marginBottom: "clamp(28px,4vw,48px)" }}>
+          {COMPANY.team.map((member, i) => {
+            const color = avatarColors[i % avatarColors.length]
+            return (
+              <div key={member.role} className="card-hover"
+                style={{ background: "var(--surface)", border: "1px solid var(--surface-4)", borderRadius: 12, overflow: "hidden" }}>
+                <div style={{ height: 4, background: topBarColors[i % topBarColors.length] }} />
+                <div style={{ padding: "clamp(20px,3vw,28px) clamp(18px,3vw,26px)" }}>
+                  {/* Avatar row */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "clamp(14px,2.5vw,20px)" }}>
+                    <div style={{
+                      width: 50, height: 50, borderRadius: "50%",
+                      background: color.bg, display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: "'Cormorant Garamond',serif", fontWeight: 700,
+                      fontSize: "clamp(15px,2.5vw,18px)", color: color.text,
+                      border: "1px solid rgba(0,0,0,.06)", flexShrink: 0,
+                    }}>
+                      {member.initials}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(16px,2.5vw,19px)", fontWeight: 600, color: "var(--ink)", lineHeight: 1.15, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {member.role}
+                      </div>
+                      <div style={{ fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase", color: "var(--gold)", marginTop: 3, fontWeight: 500 }}>
+                        {member.dept}
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="body-sm" style={{ color: "var(--ink-muted)", marginBottom: "clamp(14px,2.5vw,20px)" }}>{member.desc}</p>
+
+                  <div style={{ paddingTop: 14, borderTop: "1px solid var(--surface-3)" }}>
+                    <a href={`mailto:${COMPANY.email}`}
+                      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--ink-muted)", textDecoration: "none", transition: "color .2s ease" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = "var(--gold)")}
+                      onMouseLeave={e => (e.currentTarget.style.color = "var(--ink-muted)")}
+                    >
+                      <Mail size={13} /> Kirim Pesan
+                    </a>
+                  </div>
                 </div>
               </div>
+            )
+          })}
+        </div>
 
-              {/* Info */}
-              <div style={{ padding: "24px" }}>
-                <div
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    color: "#fff",
-                    marginBottom: "4px",
-                  }}
-                >
-                  {member.name}
-                </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    color: "#e6b800",
-                    letterSpacing: "1.5px",
-                    textTransform: "uppercase",
-                    marginBottom: "12px",
-                  }}
-                >
-                  {member.role}
-                </div>
-                <p
-                  style={{
-                    color: "rgba(255,255,255,0.45)",
-                    fontSize: "13px",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {member.desc}
-                </p>
-
-                {/* Contact icons */}
-                <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
-                  <a
-                    href={`mailto:${COMPANY.email}`}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "6px",
-                      background: "rgba(230,184,0,0.08)",
-                      border: "1px solid rgba(230,184,0,0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#e6b800",
-                      textDecoration: "none",
-                      transition: "background 0.2s",
-                    }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(230,184,0,0.18)")}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(230,184,0,0.08)")}
-                  >
-                    <Mail size={14} />
-                  </a>
-                </div>
-              </div>
+        {/* CTA banner */}
+        <div style={{
+          background: "var(--surface-2)", border: "1px solid var(--surface-4)", borderRadius: 12,
+          padding: "clamp(20px,3.5vw,28px) clamp(20px,4vw,32px)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexWrap: "wrap", gap: 16,
+        }}>
+          <div>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(18px,2.5vw,22px)", fontWeight: 600, color: "var(--ink)", marginBottom: 4 }}>
+              Diskusikan proyek Anda bersama kami
             </div>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div
-          style={{
-            textAlign: "center",
-            padding: "32px",
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: "12px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "16px",
-            flexWrap: "wrap",
-          }}
-        >
-          <Users size={20} color="#e6b800" />
-          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", margin: 0 }}>
-            Bergabung bersama kami atau konsultasikan proyek Anda langsung dengan tim ahli NMA
-          </p>
-          <a
-            href={`https://wa.me/${COMPANY.whatsapp}`}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: "linear-gradient(135deg, #e6b800, #f5c842)",
-              color: "#020b18",
-              padding: "10px 24px",
-              borderRadius: "6px",
-              textDecoration: "none",
-              fontSize: "13px",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
+            <p className="body-sm" style={{ color: "var(--ink-muted)" }}>Konsultasi pertama gratis. Tim kami siap membantu.</p>
+          </div>
+          <a href={`https://wa.me/${COMPANY.whatsapp}`} target="_blank" rel="noreferrer" className="btn-primary">
             Hubungi Tim Kami
           </a>
         </div>
