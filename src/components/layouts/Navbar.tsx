@@ -9,6 +9,7 @@ const navLinks = [
   { label: "Beranda",    href: "#hero" },
   { label: "Layanan",   href: "#services" },
   { label: "Tentang",   href: "#about" },
+  {label:  "Dokumentasi", href: "#gallery"},
   { label: "Legalitas", href: "#legalitas" },
   { label: "Tim",       href: "#team" },
   { label: "Kontak",    href: "#contact" },
