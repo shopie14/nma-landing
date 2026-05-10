@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NMA Landing Page — CV Nugraha Mutiara Abadi
 
-## Getting Started
+Landing page profesional untuk CV Nugraha Mutiara Abadi, dibangun dengan Next.js 14, Tailwind CSS, dan TypeScript.
 
-First, run the development server:
+## Stack
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS + inline styles (navy & gold theme)
+- **Language**: TypeScript
+- **Font**: Playfair Display (heading) + DM Sans (body)
+- **Icons**: Lucide React
+
+## Setup
 
 ```bash
+# 1. Buat project Next.js baru
+npx create-next-app@latest nma-landing --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+cd nma-landing
+
+# 2. Install dependencies tambahan
+npm install lucide-react clsx tailwind-merge
+
+# 3. Salin semua file dari folder ini ke dalam project
+
+# 4. Jalankan dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Struktur File
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/
+│   ├── layout.tsx          ← root layout + SEO metadata
+│   ├── page.tsx            ← assembly semua sections
+│   └── globals.css         ← font imports + custom CSS vars
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx      ← sticky navbar dengan mobile menu
+│   │   └── Footer.tsx      ← footer dengan link & kontak
+│   └── sections/
+│       ├── Hero.tsx        ← hero + animated particle canvas
+│       ├── Services.tsx    ← 8 layanan dalam grid card
+│       ├── About.tsx       ← profil + visi misi
+│       ├── Legalitas.tsx   ← NIB + data legal perusahaan
+│       ├── Team.tsx        ← tim + CTA
+│       └── Contact.tsx     ← form → WhatsApp + info kontak
+├── lib/
+│   └── utils.ts
+└── constants/
+    └── company.ts          ← SEMUA data NMA di sini
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Kustomisasi
 
-## Learn More
+Semua data perusahaan ada di **`src/constants/company.ts`**. Untuk update:
+- Nama, kontak, alamat → edit field di `COMPANY`
+- Tambah/kurang layanan → edit array `services`
+- Data tim → edit array `team`
+- Legalitas → edit array `legalitas`
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy ke Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+git init && git add . && git commit -m "init: NMA landing page"
+# Push ke GitHub lalu connect di vercel.com → auto deploy
+```
